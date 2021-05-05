@@ -11,7 +11,7 @@ source=${SOURCE:-.}
 dryrun=${DRY_RUN:-false}
 initial_version=${INITIAL_VERSION:-0.0.0}
 tag_context=${TAG_CONTEXT:-repo}
-suffix=${PRERELEASE_SUFFIX:-beta}
+suffix=${PRERELEASE_SUFFIX:-dev}
 verbose=${VERBOSE:-true}
 
 cd ${GITHUB_WORKSPACE}/${source}
@@ -48,11 +48,11 @@ git fetch --tags
 case "$tag_context" in
     *repo*) 
         tag=$(git for-each-ref --sort=-v:refname --format '%(refname:lstrip=2)' | grep -E "^v?[0-9]+\.[0-9]+\.[0-9]+$" | head -n1)
-        pre_tag=$(git for-each-ref --sort=-v:refname --format '%(refname:lstrip=2)' | grep -E "^v?[0-9]+\.[0-9]+\.[0-9]+(-$suffix\.[0-9]+)?$" | head -n1)
+        pre_tag=$(git for-each-ref --sort=-v:refname --format '%(refname:lstrip=2)' | grep -E "^v?[0-9]+\.[0-9]+\.[0-9]+(\.$suffix\.[0-9]+)?$" | head -n1)
         ;;
     *branch*) 
         tag=$(git tag --list --merged HEAD --sort=-v:refname | grep -E "^v?[0-9]+\.[0-9]+\.[0-9]+$" | head -n1)
-        pre_tag=$(git tag --list --merged HEAD --sort=-v:refname | grep -E "^v?[0-9]+\.[0-9]+\.[0-9]+(-$suffix\.[0-9]+)?$" | head -n1)
+        pre_tag=$(git tag --list --merged HEAD --sort=-v:refname | grep -E "^v?[0-9]+\.[0-9]+\.[0-9]+(\.$suffix\.[0-9]+)?$" | head -n1)
         ;;
     * ) echo "Unrecognised context"; exit 1;;
 esac
@@ -106,7 +106,7 @@ then
     if [[ "$pre_tag" == *"$new"* ]]; then
         new=$(semver -i prerelease $pre_tag --preid $suffix); part="pre-$part"
     else
-        new="$new-$suffix.1"; part="pre-$part"
+        new="$new.$suffix.1"; part="pre-$part"
     fi
 fi
 
