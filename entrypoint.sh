@@ -108,13 +108,16 @@ if $pre_release
 then
     # Already a prerelease available, bump it
     if [[ "$pre_tag" == *"$new"* ]]; then
+        echo "option1"
         new=$(semver -i prerelease $pre_tag --preid $suffix); part="pre-$part"
     else
+        echo "option2"
         new="$new.${suffix}1"; part="pre-$part"
     fi
 fi
 
-echo $part
+echo "new: "$new
+echo "part: "$part
 
 # did we get a new tag?
 if [ ! -z "$new" ]
