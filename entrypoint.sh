@@ -57,6 +57,10 @@ case "$tag_context" in
     * ) echo "Unrecognised context"; exit 1;;
 esac
 
+#debug
+echo "tag is: " $tag
+echo "pretag is: " $pre_tag
+
 # if there are none, start tags at INITIAL_VERSION which defaults to 0.0.0
 if [ -z "$tag" ]
 then
