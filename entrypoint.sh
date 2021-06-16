@@ -67,25 +67,15 @@ cat .bumpversion.cfg
 
 if [ -z "$tag" ]
 then
-    bumpversion minor
+    part='minor'
 else
-    bumpversion dev
+    part='dev'
 fi
 
-# get latest tag that looks like a semver (with or without v)
-case "$tag_context" in
-    *repo*)
-        tag=$(git for-each-ref --sort=-v:refname --format '%(refname:lstrip=2)' | grep -E "^v?[0-9]+\.[0-9]+\.[0-9]+$" | head -n1)
-        pre_tag=$(git for-each-ref --sort=-v:refname --format '%(refname:lstrip=2)' | grep -E "^v?[0-9]+\.[0-9]+\.[0-9]+(\.${suffix}[0-9]+)?$" | head -n1)
-        ;;
-    *branch*)
-        tag=$(git tag --list --merged HEAD --sort=-v:refname | grep -E "^v?[0-9]+\.[0-9]+\.[0-9]+$" | head -n1)
-        pre_tag=$(git tag --list --merged HEAD --sort=-v:refname | grep -E "^v?[0-9]+\.[0-9]+\.[0-9]+(\.${suffix}[0-9]+)?$" | head -n1)
-        ;;
-    * ) echo "Unrecognised context"; exit 1;;
-esac
+bumpversion --dry-run --verbose > 'version.txt'
+new=$(cat 'version.txt'| grep 'new_version=' | cut -d '=' -f 2-)
 
-new=$pre_tag
+echo 'New tag from bumpversion' $new
 
 ## if there are none, start tags at INITIAL_VERSION which defaults to 0.0.0
 #if [ -z "$tag" ]
