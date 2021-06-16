@@ -61,7 +61,7 @@ esac
 echo "tag is: " $tag
 echo "pretag is: " $pre_tag
 
-ls
+ls -lah
 
 cat .bumpversion.cfg
 
