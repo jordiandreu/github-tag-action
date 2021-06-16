@@ -74,7 +74,7 @@ else
     part='dev'
 fi
 
-bumpversion $part --dry-run --verbose > 'version.txt'
+bumpversion $part --verbose > 'version.txt'
 new=$(cat 'version.txt'| grep 'new_version=' | cut -d '=' -f 2-)
 
 echo 'New tag from bumpversion' $new
