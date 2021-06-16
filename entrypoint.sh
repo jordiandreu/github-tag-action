@@ -61,7 +61,9 @@ esac
 echo "tag is: " $tag
 echo "pretag is: " $pre_tag
 
-ls -lah
+echo "Current tags"
+git tag
+
 
 #cat .bumpversion.cfg
 
