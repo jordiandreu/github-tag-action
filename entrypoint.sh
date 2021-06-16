@@ -177,8 +177,10 @@ echo "Commit after bumpversion" $commit
 #
 #echo ::set-output name=tag::$new
 
+# DONE TODO: Maybe add this ad default for bumpversion config
+
 # create local git tag
-git tag $new
+#git tag $new
 
 ## push new tag ref to github
 #dt=$(date '+%Y-%m-%dT%H:%M:%SZ')
