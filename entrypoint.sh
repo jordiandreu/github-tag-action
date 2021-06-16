@@ -79,7 +79,6 @@ new=$(cat 'version.txt'| grep 'new_version=' | cut -d '=' -f 2-)
 
 echo 'New tag from bumpversion' $new
 
-exit(0)
 ## if there are none, start tags at INITIAL_VERSION which defaults to 0.0.0
 #if [ -z "$tag" ]
 #then
