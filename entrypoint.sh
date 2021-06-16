@@ -156,47 +156,47 @@ cat .bumpversion.cfg
 #    echo -e "Bumping tag ${tag}. \n\tNew tag ${new}"
 #fi
 #
-## set outputs
-#echo ::set-output name=new_tag::$new
-#echo ::set-output name=part::$part
-#
-## use dry run to determine the next tag
-#if $dryrun
-#then
-#    echo ::set-output name=tag::$tag
-#    exit 0
-#fi
-#
-#echo ::set-output name=tag::$new
-#
-## create local git tag
-#git tag $new
-#
-## push new tag ref to github
-#dt=$(date '+%Y-%m-%dT%H:%M:%SZ')
-#full_name=$GITHUB_REPOSITORY
-#git_refs_url=$(jq .repository.git_refs_url $GITHUB_EVENT_PATH | tr -d '"' | sed 's/{\/sha}//g')
-#
-#echo "$dt: **pushing tag $new to repo $full_name"
-#
-#git_refs_response=$(
-#curl -s -X POST $git_refs_url \
-#-H "Authorization: token $GITHUB_TOKEN" \
-#-d @- << EOF
-#
-#{
-#  "ref": "refs/tags/$new",
-#  "sha": "$commit"
-#}
-#EOF
-#)
-#
-#git_ref_posted=$( echo "${git_refs_response}" | jq .ref | tr -d '"' )
-#
-#echo "::debug::${git_refs_response}"
-#if [ "${git_ref_posted}" = "refs/tags/${new}" ]; then
-#  exit 0
-#else
-#  echo "::error::Tag was not created properly."
-#  exit 1
-#fi
+# set outputs
+echo ::set-output name=new_tag::$new
+echo ::set-output name=part::$part
+
+# use dry run to determine the next tag
+if $dryrun
+then
+    echo ::set-output name=tag::$tag
+    exit 0
+fi
+
+echo ::set-output name=tag::$new
+
+# create local git tag
+git tag $new
+
+# push new tag ref to github
+dt=$(date '+%Y-%m-%dT%H:%M:%SZ')
+full_name=$GITHUB_REPOSITORY
+git_refs_url=$(jq .repository.git_refs_url $GITHUB_EVENT_PATH | tr -d '"' | sed 's/{\/sha}//g')
+
+echo "$dt: **pushing tag $new to repo $full_name"
+
+git_refs_response=$(
+curl -s -X POST $git_refs_url \
+-H "Authorization: token $GITHUB_TOKEN" \
+-d @- << EOF
+
+{
+  "ref": "refs/tags/$new",
+  "sha": "$commit"
+}
+EOF
+)
+
+git_ref_posted=$( echo "${git_refs_response}" | jq .ref | tr -d '"' )
+
+echo "::debug::${git_refs_response}"
+if [ "${git_ref_posted}" = "refs/tags/${new}" ]; then
+  exit 0
+else
+  echo "::error::Tag was not created properly."
+  exit 1
+fi
