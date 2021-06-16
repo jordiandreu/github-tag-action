@@ -74,6 +74,10 @@ else
     part='dev'
 fi
 
+## get current commit hash
+commit=$(git rev-parse HEAD)
+echo "Commit before bumpversion" $commit
+
 bumpversion $part --verbose > 'version.txt'
 new=$(cat 'version.txt'| grep 'new_version=' | cut -d '=' -f 2-)
 
@@ -94,6 +98,7 @@ echo 'New tag from bumpversion' $new
 #
 ## get current commit hash
 commit=$(git rev-parse HEAD)
+echo "Commit after bumpversion" $commit
 #
 #if [ "$tag_commit" == "$commit" ]; then
 #    echo "No new commits since previous tag. Skipping..."
