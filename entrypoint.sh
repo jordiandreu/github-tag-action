@@ -60,7 +60,7 @@ esac
 #debug
 echo "tag is: " $tag
 echo "pretag is: " $pre_tag
-echo "current branch is: " $ current_branch
+echo "current branch is: " $current_branch
 echo "Current tags"
 git tag
 
