@@ -80,7 +80,7 @@ fi
 commit=$(git rev-parse HEAD)
 echo "Commit before bumpversion" $commit
 
-bumpversion $part --verbose --alllow-dirty > 'version.txt'
+bumpversion $part --verbose --allow-dirty > 'version.txt'
 new=$(cat 'version.txt'| grep 'new_version=' | cut -d '=' -f 2-)
 
 echo 'New tag from bumpversion' $new
