@@ -60,16 +60,16 @@ esac
 #debug
 echo "tag is: " $tag
 echo "pretag is: " $pre_tag
-
+echo "current branch is: " $ current_branch
 echo "Current tags"
 git tag
 
 
 #cat .bumpversion.cfg
 
-if [ -z "$tag" ]
+if [ "$current_branch" == "master" ]
 then
-    part='minor'
+    part='patch'
 else
     part='dev'
 fi
