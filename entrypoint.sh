@@ -69,7 +69,9 @@ git tag
 
 if [ "$current_branch" == "master" ]
 then
-    part='patch'
+    part='release'
+    bumpversion patch --no-tag --no-commit
+    bumpversion release --no-tag --no-commit --allow-dirty
 else
     part='dev'
 fi
